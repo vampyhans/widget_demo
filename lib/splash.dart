@@ -10,6 +10,14 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    navigateToLogin(context);
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -19,5 +27,12 @@ class _SplashState extends State<Splash> {
         child: Image.asset('assets/logo.jpg'),
       ),
     );
+  }
+
+  void navigateToLogin(BuildContext context)
+  {
+    Future.delayed(Duration (seconds: 3), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login() ));
+    });
   }
 }

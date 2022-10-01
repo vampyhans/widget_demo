@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:widget_demo/splash.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final String username;
+
+  const Home({Key? key, required this.username}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -22,14 +24,23 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.indigo,
       ),
       body: Container(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Splash() ));
-            },
-            child: Text('Logout'),
-          ),
-        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Text('Welcome'  )
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Splash() ));
+                },
+                child: Text('Logout'),
+              ),
+            ),
+          ],
+        )
       ),
     );
   }

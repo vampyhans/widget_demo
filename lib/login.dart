@@ -98,12 +98,34 @@ class _LoginState extends State<Login> {
   {
     if(_usernameController.text == 'hansa' && _passwordController.text == '123')
       {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home() ));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(
+          username: _usernameController.text,
+        ) ));
         print('hello' + _usernameController.text);
 
       }
     else{
       print('noob wrong password');
+      showAlertDialog(context);
     }
+  }
+
+  showAlertDialog(BuildContext context)
+  {
+    Widget okBtn = ElevatedButton(onPressed: () {
+      Navigator.pop(context);
+    }, child: Text(
+      'OK'
+    ));
+    AlertDialog alertDialog = AlertDialog(
+      title: Text('Error'),
+      content: Text('Wrong Username or Password'),
+      actions: [
+        okBtn
+      ],
+    );
+    showDialog(context: context, builder: (BuildContext context){
+      return alertDialog;
+    });
   }
 }
