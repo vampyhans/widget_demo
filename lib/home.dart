@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:widget_demo/splash.dart';
+import 'package:widget_demo/rest_api_service.dart';
+import 'login.dart';
 
 class Home extends StatefulWidget {
   final String username;
@@ -12,6 +13,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final apiservice = RestAPIService();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    apiservice.getUsers();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,22 +34,40 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: Text('Welcome'  )
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Splash() ));
-                },
-                child: Text('Logout'),
-              ),
-            ),
+            Expanded(child: FutureBuilder(
+              future: apiservice.getUsers(),
+              builder: (context , snapshot){
+                if(snapshot.hasData)
+                {
+                  return ListView.builder(
+                      itemCount: snapshot.data?.length,
+                      itemBuilder: (context, index){
+
+                        ////// User List item button
+
+                        return GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            child: ListTile(
+                              title: Text("${snapshot.data![index].name}"),
+                              subtitle: Text("${snapshot.data![index].city}"),
+                            ),
+                          ),
+                        );
+                      });
+                }else{
+                  return Container(
+                    child: Center(
+                      child: Text('Loading'),
+                    ),
+                  );
+                }
+              },
+            ))
           ],
-        )
+        ),
       ),
     );
   }
